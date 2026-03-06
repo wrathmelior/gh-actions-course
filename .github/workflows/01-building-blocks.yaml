@@ -1,0 +1,18 @@
+name: "01 - Building Blocks"
+on: 
+  push:
+  worflow_dispatch:
+
+jobs:
+  steps:
+    - name: echo-hello
+    - runs-on: ubuntu-latest
+      run: Say hello
+          echo "Hello World"
+    - name: echo-goodbye
+    - runs-on: ubuntu-latest
+      run: Failed step
+        echo "I will fail"
+      run: Say goodbye
+        echo "Goodbye!"
+      
