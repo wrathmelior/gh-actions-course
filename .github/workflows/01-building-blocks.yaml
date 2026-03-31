@@ -1,18 +1,20 @@
-name: "01 - Building Blocks"
-on: 
-  push:
-  worflow_dispatch:
+name: 01 - Building Blocks
+
+on: push 
 
 jobs:
-  steps:
-    - name: echo-hello
-    - runs-on: ubuntu-latest
-      run: Say hello
-          echo "Hello World"
-    - name: echo-goodbye
-    - runs-on: ubuntu-latest
-      run: Failed step
-        echo "I will fail"
-      run: Say goodbye
-        echo "Goodbye!"
+  echo-hello:
+    runs-on: ubuntu-latest
+    steps: 
+        - name: Say Hello
+          run: echo "Hello World"
+  echo-goodbye:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Failed step
+          run: |
+            echo "I will fail"
+            exit 1
+        - name: Say Goodbye 
+          run: echo "Goodbye!"
       
