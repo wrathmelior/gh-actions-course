@@ -1,10 +1,10 @@
 import csv
 import datetime as dt
+import json
 import os
 import sys
 import urllib.parse
 import urllib.request
-import json
 
 
 CSV_PATH = "release_schedule.csv"
@@ -15,11 +15,21 @@ def load_rows(path: str):
         return list(csv.DictReader(f))
 
 
+def normalize_date(date_str: str) -> str | None:
+    date_str = str(date_str).strip()
+    for fmt in ("%Y-%m-%d", "%m/%d/%Y", "%m/%-d/%Y"):
+        try:
+            return dt.datetime.strptime(date_str, fmt).date().isoformat()
+        except ValueError:
+            continue
+    return None
+
+
 def find_topic(rows, today_str: str) -> str | None:
-    # Exact date match
     for row in rows:
-        if row["code_cutoff"].strip() == today_str:
-            return row["topic_text"]
+        cutoff = normalize_date(row["Code Cutoff"])
+        if cutoff == today_str:
+            return row["Topic text"]
     return None
 
 
