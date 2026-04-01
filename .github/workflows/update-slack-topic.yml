@@ -1,0 +1,26 @@
+name: Update Slack Channel Topic
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Runs every Wednesday at 13:00 UTC
+    - cron: "0 13 * * 3"
+
+jobs:
+  update-topic:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run updater
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: python update_slack_topic.py
