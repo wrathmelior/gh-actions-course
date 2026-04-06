@@ -26,11 +26,22 @@ def normalize_date(date_str: str) -> str | None:
 
 
 def find_topic(rows, today_str: str) -> str | None:
+    today = dt.date.fromisoformat(today_str)
+    eligible = []
+
     for row in rows:
         cutoff = normalize_date(row["Code Cutoff"])
-        if cutoff == today_str:
-            return row["Topic text"]
-    return None
+        if cutoff:
+            cutoff_date = dt.date.fromisoformat(cutoff)
+            if cutoff_date <= today:
+                eligible.append((cutoff_date, row["Topic text"]))
+
+    if not eligible:
+        return None
+
+    # pick most recent past cutoff
+    eligible.sort(key=lambda x: x[0], reverse=True)
+    return eligible[0][1]
 
 
 def slack_set_topic(token: str, channel_id: str, topic: str) -> dict:
