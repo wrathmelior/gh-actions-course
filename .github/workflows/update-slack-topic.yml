@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     # Runs every Wednesday at 13:00 UTC
-    - cron: "0 13 * * 3"
+    - cron: "0 12 * * 3"
 
 jobs:
   update-topic:
